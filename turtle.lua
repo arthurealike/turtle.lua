@@ -3,7 +3,7 @@ local turtle = {
     cursorPosition = {x = 0, y = 0} ,
     lineSegments = {} ,
     drawing = true ,
-    direction = 0 , -- in randians 
+    direction = 0 , 
     color = {r=1, g=1, b=0} ,
     turtleVisibility = true ,
     size = 1 ,
@@ -35,15 +35,6 @@ end
 
 function turtle:draw()
     for _,line in pairs(self.lineSegments) do
- --       local dx, dy =  line.p2.x - line.p1.x, line.p2.y - line.p1.y
- --       local sx, sy = dx / self.speed, dy / self.speed
-
- --       while dx >= 0.1 and dy >= 0.1 do
- --           print("while")
- --           love.graphics.line(line.p1.x, line.p1.y, line.p1.x + sx, line.p1.y + sy)
- --           dx = dx - sx
- --           dy = dy - sy
- --       end
         love.graphics.line(line.p1.x,line.p1.y, line.p2.x, line.p2.y)
     end
 end
