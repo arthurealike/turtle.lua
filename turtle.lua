@@ -16,7 +16,9 @@ end
 
 local function new(x, y, speed, color) 
     linesegments = {}
-    currentposition = {x = x, y = y} or {x = love.graphics.getWidth(), y = love.graphics.getHeight()}
+    currentposition = {}
+    currentposition.x = x or love.graphics.getHeight() / 2
+    currentposition.y = y or love.graphics.getWidth() / 2
     speed = speed or 1
     color = color or {1, 1, 0}
     direction = 0
