@@ -17,15 +17,11 @@ local newline = function(x1, y1, x2, y2)
     return line
 end
 
-local insertline = function(table, line)
-    table.insert(table, line) 
-end
-
 function turtle:init(x, y, color, speed)
-    self.currentPosition.x = x
-    self.currentPosition.y = y
-    self.color = color
-    self.speed = speed
+    self.currentPosition.x = x or love.graphics.getWidth() / 2
+    self.currentPosition.y = y or love.graphics.getHeight() / 2
+    self.color = color or {1, 0, 0}
+    self.speed = speed or 1
     self.direction = 0 
 end
 
@@ -46,11 +42,11 @@ function turtle:clear()
 end
 
 function turtle:penup()
-    drawing = false
+    self.drawing = false
 end
 
 function turtle:pendown()
-    drawing = true
+    self.drawing = true
 end
 
 function turtle:showturtle()
@@ -84,8 +80,8 @@ function turtle:forward(distance)
     self.currentPosition.x, self.currentPosition.y = x, y
 end
 
-function backward(distance)
-    forward(-distance)
+function turtle:backward(distance)
+    self:forward(-distance)
 end
 
 function turtle:go_to(x, y)
