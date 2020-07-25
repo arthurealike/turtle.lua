@@ -35,7 +35,7 @@ local function new(x, y, speed, color)
     currentposition.x = x or love.graphics.getHeight() / 2
     currentposition.y = y or love.graphics.getWidth() / 2
     drawspeed = speed or 2
-    color = color or {1, 1, 0}
+    color = color or {1, 1, 1}
     direction = 0
     size = 1
     rainbowmode = false
