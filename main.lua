@@ -1,4 +1,4 @@
-local Turtle = require "turtle"
+local Turtle = require "turtle/turtle"
 
 local fps 
 local w, h = love.graphics.getWidth(), love.graphics.getHeight()
@@ -35,15 +35,12 @@ function love.load()
     local cl = {1, 1, 1}
 
     local l = 300
-    t:speed(20)
+    t:setcolor(cl):speed(.0002)
     for i=1, 3 do
         snowflake(300, 4)
         t:right(120)
     end
-    --circle1()
-
-    t:setcolor(cl):speed(0.2)
-    circle()
+    --circle()
 end
 
 function love.update(dt)

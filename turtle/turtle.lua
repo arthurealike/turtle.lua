@@ -1,5 +1,6 @@
-_TURTLEIMAGE = "turtle.png"
+_TURTLEIMAGE = "turtle/turtle.png"
 local image_exists = love.filesystem.getInfo(_TURTLEIMAGE)
+print(image_exists)
 if image_exists then 
     turtleimage = love.graphics.newImage(_TURTLEIMAGE)
 end
@@ -49,9 +50,9 @@ local function new(x, y, speed, color)
     , color = color, drawspeed = speed
     , rainbowmode = rainbowmode
     , turtlevisible = turtlevisible
-    }
-    ,
-    turtle)
+}
+,
+turtle)
 end
 
 function turtle:setcolor(...)
@@ -83,14 +84,12 @@ function turtle:draw()
             end
         end
 
-        print(self.currentline)
         local line = self.linesegments[self.currentline]
         local distance = math.sqrt(line.dx * line.dx, line.dy * line.dy) 
 
         local sx, sy = -sign(line.dx) * self.drawspeed, -sign(line.dy) * self.drawspeed
-        print(sx,sy)
-        print(drawspeed)
 
+        print(sx, sy)
         local newpdx, newpdy = line.pd.x + sx, line.pd.y + sy  
         local newdistance = math.sqrt(((line.p2.x - newpdx)* (line.p2.x - newpdx)), ((line.p2.y - newpdy)* (line.p2.y - newpdy))) 
 
@@ -115,7 +114,10 @@ function turtle:draw()
             love.graphics.line(line.p1.x,line.p1.y, line.p2.x, line.p2.y)
         end
         local lastline = self.linesegments[self.currentline]
+        if image_exists then
+            print(image_exists)
             love.graphics.draw(turtleimage, lastline.p2.x, lastline.p2.y, lastline.direction, 1, 1, 0 + turtleimage:getWidth() / 2, 0 + turtleimage:getHeight() / 2)
+        end
     end
 end
 
