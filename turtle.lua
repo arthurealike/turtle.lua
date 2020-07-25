@@ -5,7 +5,6 @@ if image_exists then
 end
 
 local turtle = {}
-
 turtle.__index = turtle
 
 local newline = function(x1, y1, x2, y2, c, dir) 
@@ -15,6 +14,10 @@ local newline = function(x1, y1, x2, y2, c, dir)
     , dx = x2 - x1
     , dy = y2 - y1
     , c = c or {1, 0, 0}, direction = dir}
+end
+
+local sign = function(x)
+    return (x<0 and -1) or 1
 end
 
 local getcolor = function(color, mode)  
@@ -38,15 +41,17 @@ local function new(x, y, speed, color)
     rainbowmode = false
     turtlevisible = true
     return setmetatable(
-    {linesegments = linesegments
+    { linesegments = linesegments
     , currentposition = currentposition
+    , currentline = currentline
     , direction = direction
+    , drawspeed = drawspeed
     , color = color, drawspeed = speed
     , rainbowmode = rainbowmode
     , turtlevisible = turtlevisible
-}
-,
-turtle)
+    }
+    ,
+    turtle)
 end
 
 function turtle:setcolor(...)
@@ -66,27 +71,25 @@ function turtle:getlines()
     return self.lineSegments
 end
 
-local sign = function(x)
-    return (x<0 and -1) or 1
-end
-
 function turtle:draw()
     local dt = love.timer.getDelta()
-    if #linesegments ~= currentline then
+    if #self.linesegments ~= self.currentline then
         --draw completed linesegments
-        if currentline > 1 then
-            for i=1, currentline - 1 do
-                local l = linesegments[i]
+        if self.currentline > 1 then
+            for i=1, self.currentline - 1 do
+                local l = self.linesegments[i]
                 love.graphics.setColor(l.c)
                 love.graphics.line(l.p1.x,l.p1.y, l.p2.x, l.p2.y)
             end
         end
 
-        local line = linesegments[currentline]
+        print(self.currentline)
+        local line = self.linesegments[self.currentline]
         local distance = math.sqrt(line.dx * line.dx, line.dy * line.dy) 
 
         local sx, sy = -sign(line.dx) * self.drawspeed, -sign(line.dy) * self.drawspeed
-        print(sx, sy)
+        print(sx,sy)
+        print(drawspeed)
 
         local newpdx, newpdy = line.pd.x + sx, line.pd.y + sy  
         local newdistance = math.sqrt(((line.p2.x - newpdx)* (line.p2.x - newpdx)), ((line.p2.y - newpdy)* (line.p2.y - newpdy))) 
@@ -98,7 +101,7 @@ function turtle:draw()
         end
 
         if line.pd.x == line.p2.x and line.pd.y == line.p2.y then
-            currentline = currentline + 1
+            self.currentline = self.currentline + 1
         end
 
         love.graphics.line(line.p1.x, line.p1.y, line.pd.x, line.pd.y)
@@ -107,11 +110,11 @@ function turtle:draw()
             love.graphics.draw(turtleimage, line.pd.x, line.pd.y, line.direction, 1, 1, 0 + turtleimage:getWidth() / 2, 0 + turtleimage:getHeight() / 2)
         end
     else 
-        for _,line in pairs(linesegments) do
+        for _,line in pairs(self.linesegments) do
             love.graphics.setColor(line.c)
             love.graphics.line(line.p1.x,line.p1.y, line.p2.x, line.p2.y)
         end
-        local lastline = linesegments[currentline]
+        local lastline = self.linesegments[self.currentline]
             love.graphics.draw(turtleimage, lastline.p2.x, lastline.p2.y, lastline.direction, 1, 1, 0 + turtleimage:getWidth() / 2, 0 + turtleimage:getHeight() / 2)
     end
 end
