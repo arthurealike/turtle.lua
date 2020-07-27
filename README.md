@@ -1,5 +1,10 @@
 # turtle.lua
 
+<p float="left">
+  <img src="gif/kochsnowflake.gif" width="320" />
+  <img src="gif/multipleturtles.gif" width="320" /> 
+</p>
+
 # Quick example
 ```lua
 local line = Turtle()
@@ -24,9 +29,3 @@ end
 
 
 ```
-
-
-![snowflake](gif/kochsnowflake.gif)
-![multiple](gif/multipleturtles.gif)
-
-
