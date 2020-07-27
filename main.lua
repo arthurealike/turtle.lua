@@ -30,7 +30,6 @@ function love.load()
 end
 
 function love.update(dt)
-    t:update(dt)
 end
 
 function love.draw()

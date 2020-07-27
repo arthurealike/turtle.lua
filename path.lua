@@ -1,6 +1,8 @@
 local Vector2 = require "vector"
 
-local Path = Object:extend()
+local Path = {}
+Path.__index = Path
+
 local Node = Object:extend()
 
 function Node:new(x, y, d, a)
@@ -9,14 +11,18 @@ function Node:new(x, y, d, a)
     self.angle = a
 end
 
-function Path:new(initialPos)
-    self.nodes = {}
-    self.totalDistance = 0
-    self.initialPos = initialPos:clone()
-    self.pathDrawRatio = 0.0
-    self.nodeDrawRatio = 1.0
-    self.nodeIndex = -1
-    self.lastPos = nil
+local function new(initialPos)
+    return setmetatable(
+    {
+        nodes = {} ,
+        totalDistance = 0 ,
+        initialPos = initialPos:clone() ,
+        pathDrawRatio = 0.0 ,
+        nodeDrawRatio = 1.0 ,
+        nodeIndex = -1 ,
+        lastPos = nil 
+    }
+    , Path)
 end
 
 function Path:angle()
@@ -26,20 +32,21 @@ end
 
 function Path:addNodeWithDistance(distance, angle)
     local pos = self.initialPos
+    print("pos = ".. pos:__tostring())
     if next(self.nodes) ~= nil then
         pos = self.nodes[#self.nodes].pos
     end
 
-    pos = Vector2.addScalarWithAngle(pos, distance, angle)
+    pos = addScalarWithAngle(pos, distance, angle)
     self.nodes[#self.nodes+1] = Node(pos.x, pos.y, -1, angle)
-    
+
     local dist = 0
 
     local lastPos = self.initialPos
     for i = 1, #self.nodes, 1 do
         local node = self.nodes[i]
-        local d = node.pos:d(lastPos)
-        
+        local d = node.pos:distance(lastPos)
+
         node.distance = d
         dist = dist + d
 
@@ -51,7 +58,7 @@ end
 function Path:addRatio(p)
     if p == 0 then return end
     self.pathDrawRatio = math.min(1.0, math.max(0.0, self.pathDrawRatio + p))
-    
+
     local lastPos = self.initialPos
     local reachDistance = self.totalDistance * self.pathDrawRatio
 
@@ -62,7 +69,7 @@ function Path:addRatio(p)
         if diff <= 0 then
             self.nodeDrawRatio = reachDistance / node.distance
             self.nodeIndex = i
-            self.lastPos = Vector2.lerp(lastPos, node.pos, self.nodeDrawRatio)
+            self.lastPos = lerp(lastPos, node.pos, self.nodeDrawRatio)
             break
         end
 
@@ -85,4 +92,5 @@ function Path:draw()
     end
 end
 
-return Path
+return setmetatable({new = new},
+{__call = function(_, ...) return new(...) end})
