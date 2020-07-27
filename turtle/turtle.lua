@@ -9,44 +9,44 @@ turtle.__index = turtle
 
 local newline = function(x1, y1, x2, y2, c, d) 
     return {
-      p1 = {x = x1, y = y1 }
-    , p2 = {x = x2, y = y2}
-    , pd = {x = x1, y = y1 }
-    , dx = x2 - x1
-    , dy = y2 - y1
-    , c = c or {1, 0, 0}, direction = d}
-end
+        p1 = {x = x1, y = y1 }
+        , p2 = {x = x2, y = y2}
+        , pd = {x = x1, y = y1 }
+        , dx = x2 - x1
+        , dy = y2 - y1
+        , c = c or {1, 0, 0}, direction = d}
+    end
 
-local sign = function(x)
-    return (x<0 and -1) or 1
-end
+    local sign = function(x)
+        return (x<0 and -1) or 1
+    end
 
-local get_color = function(_color, mode)  
-    local c = _color
-    if mode ~= false then
-        c = {love.math.random(0, 1), love.math.random(0, 1),love.math.random(0, 1)}
+    local get_color = function(_color, mode)  
+        local c = _color
+        if mode ~= false then
+            c = {love.math.random(0, 1), love.math.random(0, 1),love.math.random(0, 1)}
+        end 
+        return c
     end 
-    return c
-end 
 
-local function new(x, y, speed, color) 
-    _currentposition = {}
-    _currentposition.x = x or love.graphics.getHeight() / 2
-    _currentposition.y = y or love.graphics.getWidth() / 2
-    _color = color or {1, 1, 1}
-    _size = 1
-    return setmetatable(
-    { _linesegments = {}
-    , _currentposition = _currentposition
-    , _currentline = 1
-    , _direction = 0
-    , _speed = speed or 2
-    , _color = _color 
-    , _rainbowmode = false
-    , _turtlevisible = true
-}
-,
-turtle)
+    local function new(x, y, speed, color) 
+        _currentposition = {}
+        _currentposition.x = x or love.graphics.getHeight() / 2
+        _currentposition.y = y or love.graphics.getWidth() / 2
+        _color = color or {1, 1, 1}
+        _size = 1
+        return setmetatable(
+        { _linesegments = {}
+        , _currentposition = _currentposition
+        , _currentline = 1
+        , _direction = 0
+        , _speed = speed or 2
+        , _color = _color 
+        , _rainbowmode = false
+        , _turtlevisible = true
+    }
+    ,
+    turtle)
 end
 
 function turtle:color(...)
@@ -80,7 +80,7 @@ function turtle:draw()
         end
 
         local line = self._linesegments[self._currentline]
-        
+
         local distance = math.sqrt(line.dx * line.dx, line.dy * line.dy) 
 
         local sx, sy = -sign(line.dx) * self._speed, -sign(line.dy) * self._speed
@@ -98,9 +98,11 @@ function turtle:draw()
             self._currentline = self._currentline + 1
         end
 
+        love.graphics.setColor(line.c)
         love.graphics.line(line.p1.x, line.p1.y, line.pd.x, line.pd.y)
         if image_exists then
             local x, y = line.pd.x - turtleimage:getWidth() / 2, line.pd.y - turtleimage:getHeight() / 2
+            love.graphics.setColor(1,1,1)
             love.graphics.draw(turtleimage, line.pd.x, line.pd.y, line.direction, 1, 1, 0 + turtleimage:getWidth() / 2, 0 + turtleimage:getHeight() / 2)
         end
     else 
@@ -112,7 +114,7 @@ function turtle:draw()
         local lastline = self._linesegments[#self._linesegments]
 
         if image_exists then
-            print(image_exists)
+            love.graphics.setColor(1,1,1)
             love.graphics.draw(turtleimage, lastline.p2.x, lastline.p2.y, lastline.direction, 1, 1, 0 + turtleimage:getWidth() / 2, 0 + turtleimage:getHeight() / 2)
         end
     end
