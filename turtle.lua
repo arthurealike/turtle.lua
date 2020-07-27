@@ -14,10 +14,10 @@ local loadSprite = function (name)
 end
 
 local function new(x, y, speed)
-    pos = Vector2(x, y) 
+    pos = Vector2(x, y) or Vector2(love.graphics.getWidth() / 2, love.graphics.getHeight() / 2)
     return setmetatable(
     {
-        _pos = pos ,
+        _pos = pos,
         _sprite = loadSprite("turtle.png") ,
         _speed = speed or 20 ,
         _path = Path(pos) ,
@@ -27,7 +27,11 @@ local function new(x, y, speed)
     }, turtle)
 end
 
-function turtle:f(d)
+function turtle:fd(d)
+    return self:forward(d)
+end
+
+function turtle:forward(d)
     self._path:addNodeWithDistance(d, self._angle)
     return self
 end
@@ -48,9 +52,6 @@ function turtle:draw()
     self._pos = self._path.lastPos:clone()
     self._path:draw()
     love.graphics.draw(self._sprite, self._pos.x, self._pos.y, self._path:angle(), 1, 1, 8, 8)
-end
-
-function turtle:update(dt)
 end
 
 function turtle:print()

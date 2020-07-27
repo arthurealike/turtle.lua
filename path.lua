@@ -3,12 +3,12 @@ local Vector2 = require "vector"
 local Path = {}
 Path.__index = Path
 
-local Node = Object:extend()
-
-function Node:new(x, y, d, a)
-    self.pos = Vector2(x, y)
-    self.distance = d
-    self.angle = a
+local function Node(x, y, d, a)
+    return {
+        pos = Vector2(x, y) ,
+        distance = d ,
+        angle = a
+    }
 end
 
 local function new(initialPos)
