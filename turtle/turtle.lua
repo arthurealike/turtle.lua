@@ -79,7 +79,6 @@ function turtle:draw()
             end
         end
 
-        print("eRR ".. self._currentline)
         local line = self._linesegments[self._currentline]
         
         local distance = math.sqrt(line.dx * line.dx, line.dy * line.dy) 
@@ -126,6 +125,19 @@ function turtle:clear()
     return self
 end
 
+function turtle:home()
+    self._currentposition.x, self._currentposition.y = love.graphics.getWidth() / 2, love.graphics.getHeight() / 2
+    return self
+end
+
+function turtle:pos()
+    return self:position()
+end
+
+function turtle:position()
+    return self._currentposition.x, self._currentposition.y
+end
+
 function turtle:penup()
     self._drawing = false
     return self
@@ -142,7 +154,7 @@ function turtle:rainbow()
 end
 
 function turtle:st()
-    self:showturtle()
+    return self:showturtle()
 end
 
 function turtle:showturtle()
@@ -151,7 +163,7 @@ function turtle:showturtle()
 end
 
 function turtle:ht()
-    self:hideturtle()
+    return self:hideturtle()
 end
 
 function turtle:hideturtle()
@@ -174,7 +186,7 @@ function turtle:speed(speed)
 end
 
 function turtle:fd(distance)
-    self:forward(distance)
+    return self:forward(distance)
 end
 
 function turtle:forward(distance)
@@ -191,11 +203,11 @@ function turtle:forward(distance)
 end
 
 function turtle:back(distance)
-    self:backward(distance)
+    return self:backward(distance)
 end
 
 function turtle:bk(distance)
-    self:backward(distance)
+    return self:backward(distance)
 end
 
 function turtle:backward(distance)
@@ -210,7 +222,7 @@ function turtle:go_to(x, y)
 end
 
 function turtle:rt(angle)
-    turtle:right(angle)
+    return turtle:right(angle)
 end
 
 function turtle:right(angle)
@@ -219,7 +231,7 @@ function turtle:right(angle)
 end
 
 function turtle:lt(angle)
-    turtle:left(angle)
+    return turtle:left(angle)
 end
 
 function turtle:left(angle)
