@@ -9,64 +9,61 @@ local function snowflake(t, l, c)
         print("error: do not exceed number 7")
         return nil
     elseif c < 1 then
-        t:f(l)
+        t:fd(l)
         return nil
     end
     l = l / 3
     snowflake(t, l, c-1)
-    t:rl(60)
+    t:left(60)
     snowflake(t, l, c-1)
-    t:rr(120)
+    t:right(120)
     snowflake(t, l, c-1)
-    t:rl(60)
+    t:left(60)
     snowflake(t, l, c-1)
 end
 
 function initSnowflake(speed)
-    koch:setCallback(function ()
+    koch:callback(function ()
         print ("snowflake is fully drawn")
     end)
 
     koch:speed(speed or 240):color(1,0,1)
     for i = 1, 3 do
         snowflake(koch, 300, 4)
-        koch:rot(120):color(i/3,0,i/3)
+        koch:right(120):color(i/3,0,i/3)
     end
 end
 
 function initLine(speed)
-    line:setCallback(function ()
+    line:callback(function ()
         print ("line is fully drawn")
     end)
 
-    line:speed(speed or 100)
+    line:speed(100):go_to(love.graphics.getWidth() / 2, love.graphics.getHeight() / 2)
     for i = 1, love.graphics.getWidth(), 15 do
-        line:speed(math.max(10, i / 8)):f(15):color(math.random(), math.random(), math.random())
+        line:speed(math.max(10, i / 8)):forward(15):color(math.random(), math.random(), math.random())
     end
 end
 
 function initCircle(radius, speed)
-    circle:setCallback(function ()
+    circle:callback(function ()
         print ("circle is fully drawn")
     end)
 
     local s = 2 * math.pi * radius / 360 
     circle:speed(speed or 20)
     for i = 1, 360, 1 do
-        circle:speed(math.max(10, i / 6)):f(s):rr(1):color(math.random(), math.random(), math.random())
+        circle:speed(math.max(10, i / 6)):fd(s):right(1):color(math.random(), math.random(), math.random())
     end
 end
 
 function love.load()
-    initSnowflake()
+    initSnowflake(10)
     initLine()
     initCircle(100)
 end
 
 function love.update(dt)
-    koch:update(dt)
-    line:update(dt)
-    circle:update(dt)
 end
 
 function love.draw()

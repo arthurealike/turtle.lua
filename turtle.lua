@@ -43,7 +43,7 @@ local function new(name, x, y, callback)
         _currentDistance = 0 ,
         _totalDistance = 0 ,
         _dt = 0 ,
-        _playing = false ,
+        _playing = true ,
         _nodeIndex = -1 ,
         _lastNodeDrawPos = nil ,
         _finalized = false ,
@@ -60,14 +60,14 @@ function turtle:_createNode(x, y)
     return node
 end
 
-function turtle:setCallback(callback) self._callback = callback end
+function turtle:callback(callback) self._callback = callback end
 
-function turtle:_forward(d)
+function turtle:forward(d)
     local pos = self._pos
     if next(self._nodes) ~= nil then
         pos = self._nodes[#self._nodes]._pos
     end
-    
+
     pos = addScalarWithAngle(pos, d, self._angle)
     self._nodes[#self._nodes+1] = self:_createNode(pos.x, pos.y)
 
@@ -112,16 +112,96 @@ function turtle:clear()
     self._finalized = false
 end
 
+function turtle:rt(deg)
+    return self:right(deg)
+end
+
+function turtle:right(deg)
+    self._angle = self._angle + math.rad(deg)
+    return self
+end
+
+function turtle:lt(deg)
+    return self:left(deg)
+end
+
+function turtle:left(deg)
+    self._angle = self._angle - math.rad(deg)
+    return self
+end
+
+function turtle:setx(x)
+    self._currentPos.x = x
+    return self
+end
+
+function turtle:sety(y)
+    self._currentPos.y = y
+    return self
+end
+
+function turtle:go(x, y)
+    return self:go_to()
+end
+
+function turtle:setposition(x, y)
+    return self:go_to()
+end
+
+function turtle:setpos(x, y)
+    return self:go_to()
+end
+
+function turtle:go_to(x, y)
+    self._currentPos.x, self._currentPos.y = x, y
+    return self
+end
+
+function turtle:setheading(deg)
+    return self:heading(deg)
+end
+
+function turtle:seth(deg)
+    return self:heading(deg)
+end
+--[[
+      ~  forward() | fd()  
+      ~  backward() | bk() | back()
+      ~  right() | rt()
+      ~  left() | lt()
+      ~  goto() | setpos() | setposition()
+         ~    setx()
+         ~    sety()
+        setheading() | seth()
+        home()
+        circle()
+        dot()
+        stamp()
+        clearstamp()
+        clearstamps()
+        undo()
+        speed()
+
+
+
+]]
+
 function turtle:play() self._playing = true end     -- Play
 function turtle:pause() self._playing = false end   -- Pause
 function turtle:toggle() self._playing = not self._playing end
 function turtle:tl() return self:rot(-90) end       -- Turn left
 function turtle:tr() return self:rot(90) end        -- Turn right
-function turtle:f(d) return self:_forward(d) end    -- Forward
-function turtle:rl(a) return self:rot(-a) end       -- Rotate left
-function turtle:rr(a) return self:rot(a) end        -- Rotate right
-function turtle:rot(deg)                            -- Rotate by degree
-    self._angle = self._angle + math.rad(deg)
+
+
+function turtle:back(d) return self:forward(-d) end    -- backward
+function turtle:bd(d) return self:forward(-d) end    -- backward
+function turtle:backward(d) return self:forward(-d) end    -- backward
+function turtle:fd(d) return self:forward(d) end    -- Forward
+--function turtle:rl(a) return self:rot(-a) end       -- Rotate left
+--function turtle:rr(a) return self:rot(a) end        -- Rotate right
+
+function turtle:heading(deg)                            -- Rotate by degree
+    self._angle = math.rad(deg)
     return self
 end
 function turtle:speed(speed)                        -- Set speed
@@ -156,6 +236,8 @@ function turtle:_drawPath()
 end
 
 function turtle:draw()
+    local dt = love.timer.getDelta()
+    self:update(dt)
     self:_drawPath()
     love.graphics.setColor({1,1,1})
     if self._sprite then
@@ -172,7 +254,7 @@ function turtle:update(dt)
     local speed = node._speed
     local angle = node._angle
 
-    self._dt = self._dt + dt * speed
+    self._dt = self._dt + dt * speed * 500
 
     local ratio = math.min(1.0, math.max(0.0, self._dt / self._totalDistance))
     local reachDistance = self._totalDistance * ratio
@@ -192,7 +274,7 @@ function turtle:update(dt)
         lastPos = node._pos
         self._currentPos = lastPos
     end
-    
+
     self._drawAngle = angle
 
     if ratio == 1.0 and not self._finalized then
