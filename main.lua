@@ -1,7 +1,7 @@
 local Turtle = require "turtle"
 
-local heartpart1 = Turtle()
-local heartpart2 = Turtle()
+local heartpart1 = Turtle():color(1,0,1)
+local heartpart2 = Turtle():tc(0,1,1)
 local koch = Turtle(love.graphics.getWidth() / 2 - 150, love.graphics.getHeight() / 2 - 150)
 local circle = Turtle()
 local line = Turtle("line", 0)
@@ -80,9 +80,9 @@ function love.update(dt)
 end
 
 function love.draw()
-koch:draw()
---    line:draw()
-    --circle:draw()
+    --  koch:draw()
+    --  line:draw()
+    --  circle:draw()
     heartpart1:draw()
     heartpart2:draw()
 end

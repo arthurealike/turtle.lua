@@ -39,6 +39,7 @@ local function new(x, y, speed, color, name, callback)
         _pensize = 1 ,
         _nodes = {} ,
         _color = {1, 1, 1} ,
+        _turtlecolor = {1, 1, 1} ,
         _ratio = 0 ,
         _angle = 0 ,
         _drawAngle = 0 ,
@@ -51,7 +52,7 @@ local function new(x, y, speed, color, name, callback)
         _finalized = false ,
         _callback = callback
 
-    }, turtle)
+    }, turtle), self
 end
 
 function turtle:_createNode(x, y)
@@ -265,10 +266,31 @@ function turtle:speed(speed)
     return self
 end
 
+function turtle:tc(...)
+    return self:turtlecolor(...)
+end
+
+function turtle:turtlecolor(...)
+    local c = self._turtlecolor
+    local nargs = select("#", ...)
+    if nargs < 1 then
+        return self._turtlecolor()
+    elseif nargs == 3 then
+        c = {...}
+    elseif nargs == 1 then 
+        c = ... 
+    end
+    self._turtlecolor = c
+    print(self._turtlecolor[1], self._turtlecolor[2], self._turtlecolor[3])
+    return self
+end
+
 function turtle:color(...)                          -- Set color
     local c = self._color
     local nargs = select("#", ...)
-    if nargs == 3 then
+    if nargs < 1 then
+        return self._turtlecolor()
+    elseif nargs == 3 then
         c = {...}
     elseif nargs == 1 then 
         c = ... 
@@ -298,6 +320,7 @@ function turtle:draw()
     self:_drawPath()
     love.graphics.setColor({1,1,1})
     if self._sprite then
+        love.graphics.setColor(self._turtlecolor)
         love.graphics.draw(self._sprite, self._currentPos.x, self._currentPos.y, self._drawAngle, 1, 1, 8, 8)
     end
 end
