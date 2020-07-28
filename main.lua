@@ -1,10 +1,11 @@
 local Turtle = require "turtle"
 
-local heartpart1 = Turtle():color(1,0,1)
-local heartpart2 = Turtle():tc(0,1,1)
-local koch = Turtle(love.graphics.getWidth() / 2 - 150, love.graphics.getHeight() / 2 - 150)
-local circle = Turtle()
-local line = Turtle("line", 0)
+local turtles = {}
+turtles["heart1"] = Turtle()
+turtles["heart2"] = Turtle()
+turtles["koch"] = Turtle()
+turtles["circle"] = Turtle()
+turtles["line"] = Turtle()
 
 local function snowflake(t, l, c)
     if c > 7 then
@@ -33,7 +34,7 @@ function initHeart(t1, t2)
     end
 end
 
-function initSnowflake(speed)
+function initSnowflake(koch, speed)
     print(koch:pensize())
     koch:callback(function ()
         print (koch:name() .." is fully drawn")
@@ -46,7 +47,7 @@ function initSnowflake(speed)
     end
 end
 
-function initLine(speed)
+function initLine(line, speed)
     line:callback(function ()
         print ("line is fully drawn")
     end)
@@ -57,7 +58,7 @@ function initLine(speed)
     end
 end
 
-function initCircle(radius, speed)
+function initCircle(circle, radius, speed)
     circle:callback(function ()
         print (circle:name() .. "is fully drawn")
     end)
@@ -70,12 +71,12 @@ function initCircle(radius, speed)
 end
 
 function love.load()
-    initSnowflake(1)
-    initLine()
-    initCircle(100, 0.1)
-    heartpart1:pensize(5)
-    heartpart2:pensize(5)
-    initHeart(heartpart1, heartpart2)
+    initSnowflake(turtles["koch"], 1)
+    initLine(turtles["line"])
+    initCircle(turtles["circle"], 100, 0.1)
+    turtles["heart1"]:pensize(5):toggle()
+    turtles["heart2"]:pensize(5):toggle()
+    initHeart(turtles["heart1"], turtles["heart2"])
 end
 
 function love.update(dt)
@@ -85,18 +86,18 @@ function love.draw()
     --  koch:draw()
     --  line:draw()
     --  circle:draw()
-    heartpart1:draw()
-    heartpart2:draw()
+    turtles["heart1"]:draw()
+    turtles["heart2"]:draw()
 end
 
 function love.keypressed(key)
     if key == "space" then
-        koch:toggle()
-        line:toggle()
-        circle:toggle()
+        for _,turtle in pairs(turtles) do 
+            turtle:toggle()
+        end
     elseif key == "c" then
-        koch:clear()
-        line:clear()
-        circle:clear()
+        for _,turtle in pairs(turtles) do 
+            turtle:clear()
+        end
     end
 end
