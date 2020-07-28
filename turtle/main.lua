@@ -26,11 +26,17 @@ local function snowflake(t, l, c)
 end
 
 function initHeart(t1, t2)
-    t1:color(1,0,0):speed(1):left(140):fd(120)
-    t2:color(1,0,0):speed(1):left(40):fd(120)
+    t1:color(1,0,0):left(140):fd(120)
+    t2:color(1,0,0):left(40):fd(120)
     for i = 1, 200 do
         t1:right(1):forward(1)
         t2:left(1):forward(1)
+    end
+end
+
+function randomizeTurtles(turtles)
+    for _, t in turtles do
+        t:go():speed():right():forward()
     end
 end
 
@@ -49,7 +55,7 @@ end
 
 function initLine(line, speed)
     line:callback(function ()
-        print ("line is fully drawn")
+        print (line:name() .." is fully drawn")
     end)
 
     line:speed(1):go_to(love.graphics.getWidth() / 2, love.graphics.getHeight() / 2)
@@ -60,7 +66,7 @@ end
 
 function initCircle(circle, radius, speed)
     circle:callback(function ()
-        print (circle:name() .. "is fully drawn")
+        print (circle:name() .." is fully drawn")
     end)
 
     local s = 2 * math.pi * radius / 360 
@@ -71,11 +77,12 @@ function initCircle(circle, radius, speed)
 end
 
 function love.load()
+    love.graphics.setBackgroundColor(.15, .15, .15)
     initSnowflake(turtles["koch"], 1)
     initLine(turtles["line"])
     initCircle(turtles["circle"], 100, 0.1)
-    turtles["heart1"]:pensize(5):toggle()
-    turtles["heart2"]:pensize(5):toggle()
+    turtles["heart1"]:sety(400):speed(0.8):pensize(5):toggle()
+    turtles["heart2"]:sety(400):speed(0.8):pensize(5):toggle()
     initHeart(turtles["heart1"], turtles["heart2"])
 end
 

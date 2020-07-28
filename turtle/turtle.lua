@@ -241,6 +241,7 @@ end
 
 function turtle:toggle() 
     self._playing = not self._playing 
+    return self
 end
 
 function turtle:tl() return self:heading(-90) end       -- Turn left
