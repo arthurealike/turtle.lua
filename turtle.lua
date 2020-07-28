@@ -1,4 +1,5 @@
 local Vector2 = require "vector"
+originx, originy = love.graphics.getWidth() / 2, love.graphics.getHeight() / 2
 
 _TURTLEIMAGE = "turtle.png"
 
@@ -25,16 +26,17 @@ local function Node(x, y)
     }
 end
 
-local function new(name, x, y, callback)
+local function new(x, y, speed, color, name, callback)
     _x, _y = x or love.graphics.getWidth() / 2, y or love.graphics.getHeight() / 2
     pos = Vector2(_x, _y) 
     return setmetatable(
     {
-        _name = name ,
+        _name = name or "sweet_turtle" ,
         _pos = pos ,
         _currentPos = pos ,
         _sprite = loadSprite(_TURTLEIMAGE) ,
         _speed = 10 ,
+        _pensize = 1 ,
         _nodes = {} ,
         _color = {1, 1, 1} ,
         _ratio = 0 ,
@@ -67,7 +69,6 @@ function turtle:forward(d)
     if next(self._nodes) ~= nil then
         pos = self._nodes[#self._nodes]._pos
     end
-
     pos = addScalarWithAngle(pos, d, self._angle)
     self._nodes[#self._nodes+1] = self:_createNode(pos.x, pos.y)
 
@@ -112,6 +113,14 @@ function turtle:clear()
     self._finalized = false
 end
 
+function turtle:name(...)
+    local nargs = select("#", ...)
+    if nargs ~= 0 then 
+        self._name = select("1", ...)
+    end
+    return self._name
+end
+
 function turtle:rt(deg)
     return self:right(deg)
 end
@@ -140,74 +149,122 @@ function turtle:sety(y)
     return self
 end
 
-function turtle:go(x, y)
-    return self:go_to()
+function turtle:position(...)
+    local nargs = select("#", ...)
+    if nargs == 2 then
+        local x, y = select("1", ...), select("2", ...)
+        self._currentPos.x, self._currentPos.y = x, y
+        print(x, y)
+    end 
+    return self,self._currentPos.x, self._currentPos.y
 end
 
-function turtle:setposition(x, y)
-    return self:go_to()
-end
+function turtle:go(x, y) return self:go_to() end
 
-function turtle:setpos(x, y)
-    return self:go_to()
-end
+function turtle:setposition(x, y) return self:go_to() end
+
+function turtle:setpos(x, y) return self:go_to() end
 
 function turtle:go_to(x, y)
     self._currentPos.x, self._currentPos.y = x, y
     return self
 end
 
+function turtle:seth(deg) return self:heading(deg) end
+
 function turtle:setheading(deg)
     return self:heading(deg)
 end
 
-function turtle:seth(deg)
-    return self:heading(deg)
+function turtle:home()
+    self:go_to(originx, originy)
+    return self
 end
---[[
-      ~  forward() | fd()  
-      ~  backward() | bk() | back()
-      ~  right() | rt()
-      ~  left() | lt()
-      ~  goto() | setpos() | setposition()
-         ~    setx()
-         ~    sety()
-        setheading() | seth()
-        home()
-        circle()
-        dot()
-        stamp()
-        clearstamp()
-        clearstamps()
-        undo()
-        speed()
 
+function turtle:isdown()
+    return self._drawing
+end
 
+function turtle:pd() return self:pendown() end
 
-]]
+function turtle:down() return self:pendown() end
 
-function turtle:play() self._playing = true end     -- Play
-function turtle:pause() self._playing = false end   -- Pause
-function turtle:toggle() self._playing = not self._playing end
-function turtle:tl() return self:rot(-90) end       -- Turn left
-function turtle:tr() return self:rot(90) end        -- Turn right
+function turtle:pendown()
+    self._drawing = true
+    return self 
+end
 
+function turtle:pu() return self:penup() end
 
-function turtle:back(d) return self:forward(-d) end    -- backward
-function turtle:bd(d) return self:forward(-d) end    -- backward
-function turtle:backward(d) return self:forward(-d) end    -- backward
-function turtle:fd(d) return self:forward(d) end    -- Forward
---function turtle:rl(a) return self:rot(-a) end       -- Rotate left
---function turtle:rr(a) return self:rot(a) end        -- Rotate right
+function turtle:up() return self:penup() end
+
+function turtle:penup()
+    self._drawing = false
+    return self 
+end
+
+function turtle:pensize(...) 
+    local nargs = select("#", ...)
+    print("n = " ..nargs)
+    if nargs ~= 0 then 
+        self._pensize = select("1", ...)
+        return self
+    end
+    return self._pensize
+end
+
+function isvisible()
+    return self._drawing
+end 
+
+function st() return self:showturtle() end
+
+function showturtle()
+    self._drawing = true
+    return self
+end
+
+function ht() return self:hideturtle() end
+
+function hideturtle()
+    self._drawing = false
+    return self
+end
+
+function turtle:play() 
+    self._playing = true 
+end     
+
+function turtle:pause() 
+    self._playing = false 
+end   
+
+function turtle:toggle() 
+    self._playing = not self._playing 
+end
+
+function turtle:tl() return self:heading(-90) end       -- Turn left
+function turtle:tr() return self:heading(90) end        -- Turn right
+
+function turtle:back(d) return self:forward(-d) end   
+function turtle:bd(d) return self:forward(-d) end   
+
+function turtle:backward(d) 
+    return self:forward(-d)
+end    -- backward
+
+function turtle:fd(d) return self:forward(d) end  
 
 function turtle:heading(deg)                            -- Rotate by degree
     self._angle = math.rad(deg)
     return self
 end
-function turtle:speed(speed)                        -- Set speed
+
+function turtle:speed(speed)                     
     self._speed = speed
     return self
 end
+
 function turtle:color(...)                          -- Set color
     local c = self._color
     local nargs = select("#", ...)
