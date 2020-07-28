@@ -1,4 +1,5 @@
 # turtle.lua for LÖVE
+Minimalist **[turtle graphics](https://docs.python.org/3/library/turtle.html#module-turtle)** implementation in lua 
 
 ![LÖVE](gif/love.gif)
 
