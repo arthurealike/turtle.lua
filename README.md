@@ -1,9 +1,46 @@
 # turtle.lua
 
+![](gif/love.gif)
+
 <p float="left">
   <img src="gif/kochsnowflake.gif" width="320" />
   <img src="gif/multipleturtles.gif" width="320" /> 
 </p>
+
+# Turtle Methods
+
+```lua
+
+  forward() | fd()  
+  backward() | bk() | back()
+  right() | rt()
+  left() | lt()
+  tl()
+  rt()
+  speed()
+  go_to() | go() | setpos() | setposition()
+  setx()
+  sety()
+  setheading() | seth()
+  home()
+  callback()
+  undo()
+  clear()
+  color()
+  turtlecolor() | tc()
+  pendown() | down() | pd()
+  penup() | up() | pu()
+  pensize()
+  showturtle()
+  hideturtle()
+  isvisible()
+  play()
+  pause()
+  toggle()
+  name()
+  print()
+  
+```
 
 # Quick example
 ```lua
