@@ -9,7 +9,7 @@ As docs.python introduces:
 
 > By combining together these and similar commands, intricate shapes and pictures can easily be drawn.
 
-![LÖVE](gif/love.gif)
+<br> ![LÖVE](gif/love.gif)
 
 <p float="left">
   <img src="gif/kochsnowflake.gif" width="300" />
