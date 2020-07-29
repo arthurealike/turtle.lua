@@ -26,7 +26,7 @@ local function Node(x, y)
     }
 end
 
-local function new(x, y, speed, color, name, callback)
+local function new(x, y, speed, color, name, ondrawfinish)
     _x, _y = x or love.graphics.getWidth() / 2, y or love.graphics.getHeight() / 2
     pos = Vector2(_x, _y) 
     return setmetatable(
@@ -50,7 +50,7 @@ local function new(x, y, speed, color, name, callback)
         _nodeIndex = -1 ,
         _lastNodeDrawPos = nil ,
         _finalized = false ,
-        _callback = callback
+        _ondrawfinish = ondrawfinish
 
     }, turtle), self
 end
@@ -63,7 +63,7 @@ function turtle:_createNode(x, y)
     return node
 end
 
-function turtle:callback(callback) self._callback = callback end
+function turtle:ondrawfinish(ondrawfinish) self._ondrawfinish = ondrawfinish end
 
 function turtle:forward(d)
     local pos = self._pos
@@ -105,6 +105,16 @@ function turtle:_calculateTotalDistance()
 end
 
 function turtle:clear()
+    self._currentPos = self._currentPos
+    self._currentDistance = 0
+    self._playing = false
+    self._nodeIndex = -1
+    self._lastNodeDrawPos = nil
+    self._dt = 0
+    self._finalized = false
+end
+
+function turtle:reset()
     self._currentPos = self._pos
     self._currentDistance = 0
     self._playing = false
@@ -140,6 +150,14 @@ function turtle:left(deg)
     return self
 end
 
+function turtle:xcor()
+    return self._currentPos.x 
+end
+
+function turtle:ycor()
+    return self._currentPos.y 
+end
+
 function turtle:setx(x)
     self._currentPos.x = x
     return self
@@ -171,10 +189,20 @@ function turtle:go_to(x, y)
     return self
 end
 
-function turtle:seth(deg) return self:heading(deg) end
+function turtle:seth(deg) return self:setheading(deg) end
+
+function turtle:heading()
+    return self._angle
+end
 
 function turtle:setheading(deg)
-    return self:heading(deg)
+    self._angle = math.rad(deg)
+    return self
+end
+
+function turtle:distance(x, y) 
+    local dx, dy = x - self.x, y - self.y
+    return sqrt(dx * dx + dy * dy)
 end
 
 function turtle:home()
@@ -255,11 +283,6 @@ function turtle:backward(d)
 end    -- backward
 
 function turtle:fd(d) return self:forward(d) end  
-
-function turtle:heading(deg)                            -- Rotate by degree
-    self._angle = math.rad(deg)
-    return self
-end
 
 function turtle:speed(speed)                     
     self._speed = speed
@@ -362,7 +385,7 @@ function turtle:update(dt)
         self._nodeIndex = #self._nodes
         self._lastNodeDrawPos = self._nodes[self._nodeIndex]._pos
         self._finalized = true
-        if self._callback ~= nil then self._callback() end
+        if self._ondrawfinish ~= nil then self._ondrawfinish() end
     end
 end
 

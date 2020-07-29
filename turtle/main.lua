@@ -1,5 +1,6 @@
 local Turtle = require "turtle"
 
+local snake = Turtle()
 local turtles = {}
 turtles["heart1"] = Turtle()
 turtles["heart2"] = Turtle()
@@ -42,7 +43,7 @@ end
 
 function initSnowflake(koch, speed)
     print(koch:pensize())
-    koch:callback(function ()
+    koch:ondrawfinish(function ()
         print (koch:name() .." is fully drawn")
     end)
 
@@ -54,7 +55,7 @@ function initSnowflake(koch, speed)
 end
 
 function initLine(line, speed)
-    line:callback(function ()
+    line:ondrawfinish(function ()
         print (line:name() .." is fully drawn")
     end)
 
@@ -65,7 +66,7 @@ function initLine(line, speed)
 end
 
 function initCircle(circle, radius, speed)
-    circle:callback(function ()
+    circle:ondrawfinish(function ()
         print (circle:name() .." is fully drawn")
     end)
 
@@ -87,14 +88,25 @@ function love.load()
 end
 
 function love.update(dt)
+    --snake:right(1):forward(100)
+    move(snake)
 end
 
 function love.draw()
+    snake:draw()
     --  koch:draw()
     --  line:draw()
     --  circle:draw()
-    turtles["heart1"]:draw()
-    turtles["heart2"]:draw()
+    -- turtles["heart1"]:draw()
+    -- turtles["heart2"]:draw()
+end
+
+function move(snake)
+    local x, y = snake:xcor(), snake:ycor()
+    print(x, y)
+    if snake:heading() == 90 then 
+        print("90")
+    end 
 end
 
 function love.keypressed(key)
@@ -102,9 +114,13 @@ function love.keypressed(key)
         for _,turtle in pairs(turtles) do 
             turtle:toggle()
         end
+    elseif key == "w" then 
+        snake:forward(30)
+    elseif key == "s" then 
+        snake:backward(30)
     elseif key == "c" then
         for _,turtle in pairs(turtles) do 
-            turtle:clear()
+            turtle:reset()
         end
     end
 end
