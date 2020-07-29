@@ -261,10 +261,12 @@ end
 
 function turtle:play() 
     self._playing = true 
+    return self
 end     
 
 function turtle:pause() 
     self._playing = false 
+    return self
 end   
 
 function turtle:toggle() 

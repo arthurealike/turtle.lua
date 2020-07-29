@@ -1,6 +1,5 @@
 local Turtle = require "turtle"
 
-local snake = Turtle()
 local turtles = {}
 turtles["heart1"] = Turtle()
 turtles["heart2"] = Turtle()
@@ -82,31 +81,20 @@ function love.load()
     initSnowflake(turtles["koch"], 1)
     initLine(turtles["line"])
     initCircle(turtles["circle"], 100, 0.1)
-    turtles["heart1"]:sety(400):speed(0.8):pensize(5):toggle()
-    turtles["heart2"]:sety(400):speed(0.8):pensize(5):toggle()
+    turtles["heart1"]:sety(400):speed(0.5):pensize(5)
+    turtles["heart2"]:sety(400):speed(0.5):pensize(5)
     initHeart(turtles["heart1"], turtles["heart2"])
 end
 
 function love.update(dt)
-    --snake:right(1):forward(100)
-    move(snake)
 end
 
 function love.draw()
-    snake:draw()
     --  koch:draw()
     --  line:draw()
     --  circle:draw()
-    -- turtles["heart1"]:draw()
-    -- turtles["heart2"]:draw()
-end
-
-function move(snake)
-    local x, y = snake:xcor(), snake:ycor()
-    print(x, y)
-    if snake:heading() == 90 then 
-        print("90")
-    end 
+     turtles["heart1"]:draw()
+     turtles["heart2"]:draw()
 end
 
 function love.keypressed(key)
@@ -114,10 +102,6 @@ function love.keypressed(key)
         for _,turtle in pairs(turtles) do 
             turtle:toggle()
         end
-    elseif key == "w" then 
-        snake:forward(30)
-    elseif key == "s" then 
-        snake:backward(30)
     elseif key == "c" then
         for _,turtle in pairs(turtles) do 
             turtle:reset()
