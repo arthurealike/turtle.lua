@@ -20,8 +20,9 @@ function love.load()
 end
 
 ```
-
-![Colorful](gif/examples/colorful.gif)
+<div style='float: center'>
+  <img style='width: 600px' src="https://github.com/arthurealike/turtle.lua/blob/master/gif/examples/colorful.gif"></img>
+</div>
 
 ## Snake
 
@@ -37,11 +38,21 @@ function love.update()
     end
 end
 ```
-![Snake](gif/examples/snake.gif)
+<div style='float: center'>
+  <img style='width: 600px' src="https://github.com/arthurealike/turtle.lua/blob/master/gif/examples/snake.gif"></img>
+</div>
+
 
 ## Spidey
 ```lua
+local Spider = require "turtle"
+
+local spider = Spider()
+function love.load()
     spider:name("spidey"):setsprite("spider.png"):home():speed(15)
     spiderweb(spider)
+end
 ```
-![Spidey](gif/examples/spidey.gif)
+<div style='float: center'>
+  <img style='width: 600px' src="https://github.com/arthurealike/turtle.lua/blob/master/gif/examples/spidey.gif"></img>
+</div>
