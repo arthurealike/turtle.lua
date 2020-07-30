@@ -37,6 +37,12 @@ function lerp(a, b, t)
     return a + (b - a) * t
 end
 
+function Vector:rotateAround(x, y, angle)
+    local newPos = self + new(x, y)
+    local sin, cos = math.sin(angle), math.cos(angle)
+    return new(cos * (newPos.x - self.x) - sin * (newPos.y - self.y) + self.x, sin * (newPos.x - self.x) + cos * (newPos.y - self.y) + self.y)
+end
+
 function Vector:distance(v)
     local dx, dy = v.x - self.x, v.y - self.y
     return sqrt(dx * dx + dy * dy)

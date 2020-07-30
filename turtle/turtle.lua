@@ -7,8 +7,8 @@ local turtle = {}
 turtle.__index = turtle
 
 local loadSprite = function (name)
-    local fileLoc = "sprites/" .. name
-    local f = io.open(fileLoc)
+    local fileLoc = name
+    local f = io.open(name)
     if f then
         f:close()
         return love.graphics.newImage(fileLoc)
@@ -22,7 +22,6 @@ local function Node(x, y)
         _angle = 0 ,
         _color = nil ,
         _speed = 0 ,
-        _distance = 0
     }
 end
 
@@ -50,9 +49,12 @@ local function new(x, y, speed, color, name, ondrawfinish)
         _nodeIndex = -1 ,
         _lastNodeDrawPos = nil ,
         _finalized = false ,
-        _ondrawfinish = ondrawfinish
+        _ondrawfinish = ondrawfinish ,
+        _drawing = false ,
+        _visible = true ,
+        _debug = false
 
-    }, turtle), self
+    }, turtle)
 end
 
 function turtle:_createNode(x, y)
@@ -60,10 +62,17 @@ function turtle:_createNode(x, y)
     node._speed = self._speed
     node._color = self._color
     node._angle = self._angle
+    node._lineVisible = self._drawing
     return node
 end
 
+function turtle:setsprite(name)
+    self._sprite = loadSprite(name)
+    return self
+end
+
 function turtle:ondrawfinish(ondrawfinish) self._ondrawfinish = ondrawfinish end
+function turtle:nodecount() return #self._nodes end
 
 function turtle:forward(d)
     local pos = self._pos
@@ -72,6 +81,7 @@ function turtle:forward(d)
     end
     pos = addScalarWithAngle(pos, d, self._angle)
     self._nodes[#self._nodes+1] = self:_createNode(pos.x, pos.y)
+    self._finalized = false
 
     self:_calculateTotalDistance()
     return self
@@ -202,7 +212,7 @@ end
 
 function turtle:distance(x, y) 
     local dx, dy = x - self.x, y - self.y
-    return sqrt(dx * dx + dy * dy)
+    return math.sqrt(dx * dx + dy * dy)
 end
 
 function turtle:home()
@@ -215,21 +225,20 @@ function turtle:isdown()
 end
 
 function turtle:pd() return self:pendown() end
-
-function turtle:down() return self:pendown() end
-
 function turtle:pendown()
     self._drawing = true
-    return self 
+    return self
 end
 
 function turtle:pu() return self:penup() end
-
-function turtle:up() return self:penup() end
-
 function turtle:penup()
     self._drawing = false
-    return self 
+    return self
+end
+
+function turtle:pentoggle() 
+    self._drawing = not self._drawing
+    return self
 end
 
 function turtle:pensize(...) 
@@ -241,30 +250,26 @@ function turtle:pensize(...)
     return self._pensize
 end
 
-function isvisible()
-    return self._drawing
+function turtle:isvisible()
+    return self._visible
 end 
 
-function st() return self:showturtle() end
-
-function showturtle()
-    self._drawing = true
+function turtle:show() 
+    self._visible = true
     return self
 end
 
-function ht() return self:hideturtle() end
-
-function hideturtle()
-    self._drawing = false
+function turtle:hide() 
+    self._visible = false
     return self
 end
 
 function turtle:play() 
-    self._playing = true 
+    self._playing = true
 end     
 
 function turtle:pause() 
-    self._playing = false 
+    self._playing = false
 end   
 
 function turtle:toggle() 
@@ -326,12 +331,16 @@ function turtle:_drawPath()
     local lastPos = self._pos
     for i = 1, self._nodeIndex, 1 do
         local node = self._nodes[i]
-        love.graphics.setColor(node._color)
-        if i == self._nodeIndex then
-            love.graphics.line(lastPos.x, lastPos.y, self._lastNodeDrawPos.x, self._lastNodeDrawPos.y)
-            break
-        else
-            love.graphics.line(lastPos.x, lastPos.y, node._pos.x, node._pos.y)
+        if node._lineVisible then
+            if node._color ~= nil then
+                love.graphics.setColor(node._color)
+            end
+            if i == self._nodeIndex then
+                love.graphics.line(lastPos.x, lastPos.y, self._lastNodeDrawPos.x, self._lastNodeDrawPos.y)
+                break
+            else
+                love.graphics.line(lastPos.x, lastPos.y, node._pos.x, node._pos.y)
+            end
         end
         lastPos = node._pos
     end
@@ -339,13 +348,21 @@ end
 
 function turtle:draw()
     local dt = love.timer.getDelta()
+    
     self:update(dt)
     self:_drawPath()
+
     love.graphics.setLineWidth(self._pensize)
     love.graphics.setColor({1,1,1})
-    if self._sprite then
+    if self._visible and self._sprite then
         love.graphics.setColor(self._turtlecolor)
         love.graphics.draw(self._sprite, self._currentPos.x, self._currentPos.y, self._drawAngle, 1, 1, 8, 8)
+    end
+    
+    if self._debug then
+        self:_drawDebug()
+    elseif self._sprite == nil then
+        self:_drawTriangle()
     end
 end
 
@@ -358,7 +375,7 @@ function turtle:update(dt)
     local speed = node._speed
     local angle = node._angle
 
-    self._dt = self._dt + dt * speed * 500
+    self._dt = self._dt + dt * speed * 100
 
     local ratio = math.min(1.0, math.max(0.0, self._dt / self._totalDistance))
     local reachDistance = self._totalDistance * ratio
@@ -387,6 +404,55 @@ function turtle:update(dt)
         self._finalized = true
         if self._ondrawfinish ~= nil then self._ondrawfinish() end
     end
+end
+
+function turtle:debugon()
+    self._debug = true
+    self._debugTexts = {
+        fps = love.graphics.newText(love.graphics.getFont(), "FPS: -") ,
+        name = love.graphics.newText(love.graphics.getFont(), self._name) ,
+        nodeCount = love.graphics.newText(love.graphics.getFont(), "NODES: 0") ,
+        position = love.graphics.newText(love.graphics.getFont(), "...")
+    }
+end
+
+function turtle:debugoff()
+    self._debug = false
+    self._debugTexts = {}
+end
+
+function turtle:_drawDebug()
+    self._debugTexts.fps:set("FPS: " .. love.timer.getFPS())
+    self._debugTexts.nodeCount:set("NODES: " .. #self._nodes)
+
+    if self._lastNodeDrawPos ~= nil then 
+        self._debugTexts.position:set(self._lastNodeDrawPos)
+
+        local r, g, b, a = love.graphics.getColor()
+        love.graphics.setColor({0.4, 0.4, 0.4})
+        love.graphics.draw(self._debugTexts.name, self._lastNodeDrawPos.x + 8, self._lastNodeDrawPos.y - 8)
+        
+        if not self._drawing then love.graphics.setColor(1, 0, 0) else love.graphics.setColor(1, 1, 0) end
+        self:_drawTriangle()
+
+        love.graphics.setColor(r, g, b, a)
+    end
+
+    love.graphics.draw(self._debugTexts.fps, 0, 0)
+    love.graphics.draw(self._debugTexts.nodeCount, 0, 15)
+    love.graphics.draw(self._debugTexts.position, 0, love.graphics.getHeight() - 15)
+end
+
+function turtle:_drawTriangle()
+    local pos = self._currentPos
+    local angle = self._angle
+
+    if next(self._nodes) ~= nil then 
+        angle = self._nodes[#self._nodes]._angle
+    end
+    
+    local a, b, c = pos:rotateAround(-5, -5, angle), pos:rotateAround(-5, 5, angle), pos:rotateAround(5, 0, angle)
+    love.graphics.polygon("fill", a.x, a.y, b.x, b.y, c.x, c.y)
 end
 
 function turtle:print()
