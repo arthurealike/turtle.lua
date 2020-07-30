@@ -26,8 +26,8 @@ local function snowflake(t, l, c)
 end
 
 function initHeart(t1, t2)
-    t1:color(1,0,0):left(140):fd(120)
-    t2:color(1,0,0):left(40):fd(120)
+    t1:color(1,1,1):left(140):fd(120)
+    t2:color(1,1,1):left(40):fd(120)
     for i = 1, 200 do
         t1:right(1):forward(1)
         t2:left(1):forward(1)
@@ -41,15 +41,17 @@ function randomizeTurtles(turtles)
 end
 
 function initSnowflake(koch, speed)
+    koch:speed(speed)
+    koch:setx(260):sety(220)
     print(koch:pensize())
     koch:ondrawfinish(function ()
         print (koch:name() .." is fully drawn")
     end)
 
-    koch:speed(speed):color(1,0,1)
+    --koch:speed(speed):color(1,1,1)
     for i = 1, 3 do
         snowflake(koch, 300, 4)
-        koch:right(120):color(i/3,0,i/3)
+        koch:right(120):color(i/3,i/3,i/3)
     end
 end
 
@@ -77,30 +79,34 @@ function initCircle(circle, radius, speed)
 end
 
 function love.load()
+    love.window.setTitle("Turtle")
     love.graphics.setBackgroundColor(.15, .15, .15)
-    initSnowflake(turtles["koch"], 1)
+    initSnowflake(turtles["koch"], 3)
     initLine(turtles["line"])
     initCircle(turtles["circle"], 100, 0.1)
     turtles["heart1"]:sety(400):speed(0.5):pensize(5)
     turtles["heart2"]:sety(400):speed(0.5):pensize(5)
     initHeart(turtles["heart1"], turtles["heart2"])
+
+
 end
 
 function love.update(dt)
 end
 
 function love.draw()
-    --  koch:draw()
+    turtles["koch"]:draw()
     --  line:draw()
     --  circle:draw()
-     turtles["heart1"]:draw()
-     turtles["heart2"]:draw()
+    -- turtles["heart1"]:draw()
+    -- turtles["heart2"]:draw()
 end
 
 function love.keypressed(key)
     if key == "space" then
         for _,turtle in pairs(turtles) do 
             turtle:toggle()
+            turtles["heart1"]:forward(10)
         end
     elseif key == "c" then
         for _,turtle in pairs(turtles) do 
