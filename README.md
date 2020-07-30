@@ -11,6 +11,11 @@ As docs.python introduces:
 
 > By combining together these and similar commands, intricate shapes and pictures can easily be drawn.
 
+# Examples
+
+We added some examples to introduce you turtle library.
+See what we've done in [Examples](https://github.com/arthurealike/turtle.lua/edit/master/examples/examples.md)
+
 
 # Turtle Methods
 
