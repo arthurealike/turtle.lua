@@ -1,7 +1,9 @@
 # turtle.lua for LÖVE
-<br> ![LÖVE](gif/love.gif)
 
 Minimalist **[turtle graphics](https://docs.python.org/3/library/turtle.html#module-turtle)** implementation in lua 
+
+<br> ![LÖVE](gif/love.gif)
+
 
 ### What is turtle?
 As docs.python introduces:
