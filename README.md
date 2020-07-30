@@ -13,7 +13,7 @@ As docs.python introduces:
 
 # Examples
 We added some examples to introduce you turtle library.
-See what we've done in [Examples](https://github.com/arthurealike/turtle.lua/edit/master/examples/examples.md)
+See what we've done in [Examples](https://github.com/arthurealike/turtle.lua/blob/master/examples/examples.md)
 
 <p>
    <img src="gif/examples/spidey.gif" width="240" />
