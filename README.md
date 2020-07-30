@@ -1,4 +1,6 @@
 # turtle.lua for LÖVE
+<br> ![LÖVE](gif/love.gif)
+
 Minimalist **[turtle graphics](https://docs.python.org/3/library/turtle.html#module-turtle)** implementation in lua 
 
 ### What is turtle?
@@ -9,12 +11,18 @@ As docs.python introduces:
 
 > By combining together these and similar commands, intricate shapes and pictures can easily be drawn.
 
-<br> ![LÖVE](gif/love.gif)
+# Examples 
+We added some examples to introduce you turtle library.
 
-<p float="left">
-  <img src="gif/kochsnowflake.gif" width="300" />
-  <img src="gif/multipleturtles.gif" width="300" /> 
-</p>
+## Colorful
+![Colorful](gif/examples/colorful.gif)
+
+## Snake
+![Snake](gif/examples/snake.gif)
+
+## Spidey
+![Spidey](gif/examples/spidey.gif)
+
 
 # Turtle Methods
 
