@@ -8,7 +8,7 @@ turtle.__index = turtle
 
 local loadSprite = function (name)
     local fileLoc = name
-    local f = io.open(name)
+    local f = io.open(name, "r")
     if f then
         f:close()
         return love.graphics.newImage(fileLoc)
@@ -139,6 +139,7 @@ function turtle:name(...)
     local nargs = select("#", ...)
     if nargs ~= 0 then 
         self._name = select("1", ...)
+        return self
     end
     return self._name
 end
@@ -170,12 +171,14 @@ function turtle:ycor()
 end
 
 function turtle:setx(x)
-    self._currentPos.x = x
+    self._pos.x = x
+    print(x)
     return self
 end
 
 function turtle:sety(y)
-    self._currentPos.y = y
+    self._pos.y = y
+    print(y)
     return self
 end
 
@@ -196,7 +199,6 @@ function turtle:setposition(x, y) return self:go_to() end
 function turtle:setpos(x, y) return self:go_to() end
 
 function turtle:go_to(x, y)
-    self._currentPos.x, self._currentPos.y = x, y
     return self
 end
 
@@ -355,7 +357,7 @@ end
 
 function turtle:draw()
     local dt = love.timer.getDelta()
-    
+
     self:update(dt)
     self:_drawPath()
 
@@ -366,7 +368,7 @@ function turtle:draw()
         love.graphics.setColor(self._turtlecolor)
         love.graphics.draw(self._sprite, self._currentPos.x, self._currentPos.y, self._drawAngle, 1, 1, 8, 8)
     end
-    
+
     if self._debug then
         self:_drawDebug()
     elseif self._sprite == nil then
@@ -422,6 +424,7 @@ function turtle:debugon()
         nodeCount = love.graphics.newText(love.graphics.getFont(), "NODES: 0") ,
         position = love.graphics.newText(love.graphics.getFont(), "...")
     }
+    return self
 end
 
 function turtle:debugoff()
@@ -439,8 +442,8 @@ function turtle:_drawDebug()
         local r, g, b, a = love.graphics.getColor()
         love.graphics.setColor({0.4, 0.4, 0.4})
         love.graphics.draw(self._debugTexts.name, self._lastNodeDrawPos.x + 8, self._lastNodeDrawPos.y - 8)
-        
-        if not self._drawing then love.graphics.setColor(1, 0, 0) else love.graphics.setColor(1, 1, 0) end
+
+        if not self._drawing and not self._isvisible then love.graphics.setColor(1, 0, 0) else love.graphics.setColor(1, 1, 0) end
         self:_drawTriangle()
 
         love.graphics.setColor(r, g, b, a)
@@ -458,7 +461,7 @@ function turtle:_drawTriangle()
     if next(self._nodes) ~= nil then 
         angle = self._nodes[#self._nodes]._angle
     end
-    
+
     local a, b, c = pos:rotateAround(-5, -5, angle), pos:rotateAround(-5, 5, angle), pos:rotateAround(5, 0, angle)
     love.graphics.polygon("fill", a.x, a.y, b.x, b.y, c.x, c.y)
 end

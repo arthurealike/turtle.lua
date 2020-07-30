@@ -1,8 +1,8 @@
 package.path = package.path .. ";../../turtle/?.lua"
-local Spider = require "turtle"
+local Turtle = require "turtle"
 
-local spider = Spider() -- Let's call it spider
-spider:setsprite("spider.png")
+local rainbow = Turtle()
+rainbow:setsprite("spider.png")
 
 local c, x = 0, 0
 local colors = {
@@ -19,27 +19,29 @@ local colors = {
 }
 
 function love.load()
+    love.window.setTitle("Colorful")
     love.graphics.setBackgroundColor(.15, .15, .15)
-    spider:pd():speed(200)
+    rainbow:st():pd():speed(1000)
+    print(rainbow:isvisible())
     while x < 1000 do
         local idx = math.floor(c)
         color = colors[idx]
-        spider:color(color)
-        spider:forward(x / 2.5)
-        spider:right(98)
+        rainbow:color(color)
+        rainbow:forward(x / 2.5)
+        rainbow:right(98)
         x = x + 1
         c = c + 0.1
     end
 end
 
 function love.draw()
-    spider:draw()
+    rainbow:draw()
 end
 
 function love.keypressed(key)
     if key == "space" then
-        spider:toggle()
+        rainbow:toggle()
     elseif key == "c" then
-        spider:reset()
+        rainbow:reset()
     end
 end

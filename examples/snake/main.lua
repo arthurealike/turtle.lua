@@ -8,6 +8,7 @@ local gameText = love.graphics.newText(love.graphics.getFont(), "SNAKE")
 local speed = 1
 
 function love.load()
+    love.window.setTitle("Snake")
     love.graphics.setBackgroundColor(.15, .15, .15)
     snake:debugon()
     snake:pd():play()
