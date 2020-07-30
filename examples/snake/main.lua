@@ -1,7 +1,7 @@
 package.path = package.path .. ";../../turtle/?.lua"
-Turtle = require "turtle"
+Snake = require "turtle"
 
-local snake = Turtle()
+local snake = Snake()
 snake:name("sweet snake")
 
 local gameText = love.graphics.newText(love.graphics.getFont(), "SNAKE")

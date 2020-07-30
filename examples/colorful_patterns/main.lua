@@ -21,7 +21,7 @@ local colors = {
 function love.load()
     love.window.setTitle("Colorful")
     love.graphics.setBackgroundColor(.15, .15, .15)
-    rainbow:st():pd():speed(1000)
+    rainbow:pd():speed(1000)
     print(rainbow:isvisible())
     while x < 1000 do
         local idx = math.floor(c)

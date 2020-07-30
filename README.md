@@ -11,18 +11,6 @@ As docs.python introduces:
 
 > By combining together these and similar commands, intricate shapes and pictures can easily be drawn.
 
-# Examples 
-We added some examples to introduce you turtle library.
-
-## Colorful
-![Colorful](gif/examples/colorful.gif)
-
-## Snake
-![Snake](gif/examples/snake.gif)
-
-## Spidey
-![Spidey](gif/examples/spidey.gif)
-
 
 # Turtle Methods
 
