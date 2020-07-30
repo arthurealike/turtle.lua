@@ -45,6 +45,6 @@ function love.keypressed(key)
     if key == "space" then
         koch:toggle()
     elseif key == "c" then
-        koch:clear()()
+        koch:clear()
     end
 end

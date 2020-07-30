@@ -1,16 +1,22 @@
-# Turtle 
+# Turtle
 ![LÖVE](gif/love.gif)
 
 Minimalist drawing library is inspired by **[turtle graphics](https://docs.python.org/3/library/turtle.html#module-turtle)** , written in **lua** for **löve2d**.
 
+# How to use
+Drawing anything is easy and readable with chain methods.
+![triangle](gif/tri.gif)
+```lua
+local triangle = Turtle()
 
-### What is turtle?
-As docs.python introduces:
-> Turtle graphics is a popular way for introducing programming to kids. It was part of the original Logo programming language developed by Wally Feurzeig, Seymour Papert and Cynthia Solomon in 1967.
+function love.load()
+    triangle:forward(60):left(120):forward(60):left(120):forward(60)
+end
 
-> Imagine a robotic turtle starting at (0, 0) in the x-y plane. After an import turtle, give it the command turtle.forward(15), and it moves (on-screen!) 15 pixels in the direction it is facing, drawing a line as it moves. Give it the command turtle.right(25), and it rotates in-place 25 degrees clockwise.
-
-> By combining together these and similar commands, intricate shapes and pictures can easily be drawn.
+function love.draw()
+   triangle:draw()
+end
+```
 
 # Examples
 We added some examples to introduce you turtle library.
@@ -21,6 +27,14 @@ See what we've done in [Examples](https://github.com/arthurealike/turtle.lua/blo
    <img src="gif/examples/colorful.gif" width="240" />
    <img src="gif/examples/snake.gif" width="240" />
 </p>
+
+### What is turtle?
+As docs.python introduces:
+> Turtle graphics is a popular way for introducing programming to kids. It was part of the original Logo programming language developed by Wally Feurzeig, Seymour Papert and Cynthia Solomon in 1967.
+
+> Imagine a robotic turtle starting at (0, 0) in the x-y plane. After an import turtle, give it the command turtle.forward(15), and it moves (on-screen!) 15 pixels in the direction it is facing, drawing a line as it moves. Give it the command turtle.right(25), and it rotates in-place 25 degrees clockwise.
+
+> By combining together these and similar commands, intricate shapes and pictures can easily be drawn.
 
 
 # Turtle Methods
@@ -99,7 +113,7 @@ See what we've done in [Examples](https://github.com/arthurealike/turtle.lua/blo
 ```lua
 local line = Turtle()
 local circle = Turtle(100,100,1)
-local rectangle = Turtle(100,150,1, {1, 1, 1})
+local triangle = Turtle(100,150,1, {1, 1, 1})
 
 function love.load()
     local red = {1, 0, 0}
