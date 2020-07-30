@@ -38,6 +38,8 @@ local function new(x, y, speed, color, name, ondrawfinish)
         _pensize = 1 ,
         _nodes = {} ,
         _color = {1, 1, 1} ,
+        _drawing = true ,
+        _turtlevisible = true ,
         _turtlecolor = {1, 1, 1} ,
         _ratio = 0 ,
         _angle = 0 ,
@@ -254,26 +256,30 @@ function turtle:isvisible()
     return self._visible
 end 
 
-function turtle:show() 
+function turtle:st() return self:showturtle() end
+function turtle:showturtle() 
     self._visible = true
     return self
 end
 
-function turtle:hide() 
+function turtle:ht() return self:hideturtle() end
+function turtle:hideturtle() 
     self._visible = false
     return self
 end
 
 function turtle:play() 
     self._playing = true
+    return self
 end     
 
 function turtle:pause() 
     self._playing = false
+    return self
 end   
 
 function turtle:toggle() 
-    self._playing = not self._playing 
+    self._playing = not self._playing
     return self
 end
 
@@ -354,6 +360,7 @@ function turtle:draw()
 
     love.graphics.setLineWidth(self._pensize)
     love.graphics.setColor({1,1,1})
+    
     if self._visible and self._sprite then
         love.graphics.setColor(self._turtlecolor)
         love.graphics.draw(self._sprite, self._currentPos.x, self._currentPos.y, self._drawAngle, 1, 1, 8, 8)
