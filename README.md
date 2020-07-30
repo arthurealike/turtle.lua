@@ -1,7 +1,7 @@
 # Turtle 
-<br> ![LÖVE](gif/love.gif)
+![LÖVE](gif/love.gif)
 
-Minimalist **[turtle graphics](https://docs.python.org/3/library/turtle.html#module-turtle)** module written in **lua** for **löve2d**.
+Minimalist drawing library is inspired by **[turtle graphics](https://docs.python.org/3/library/turtle.html#module-turtle)** , written in **lua** for **löve2d**.
 
 
 ### What is turtle?
