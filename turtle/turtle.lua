@@ -52,7 +52,6 @@ local function new(x, y, speed, color, name, ondrawfinish)
         _lastNodeDrawPos = nil ,
         _finalized = false ,
         _ondrawfinish = ondrawfinish ,
-        _drawing = false ,
         _visible = true ,
         _debug = false
 
