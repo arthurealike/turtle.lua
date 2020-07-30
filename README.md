@@ -4,7 +4,7 @@
 #### Minimalist drawing library is inspired by **[turtle graphics](https://docs.python.org/3/library/turtle.html#module-turtle)** , written in **lua** for **löve2d**.
 
 # Prerequisite
-* **Get [löve](Love2d.org)**
+* **Get [LÖVE](https://love2d.org/)**
 
 # How to use
 *Create a **turtle** instance. Give it your commands and call its **draw()** function in **love.draw()**, That's it!*
