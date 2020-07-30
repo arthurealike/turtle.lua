@@ -4,12 +4,15 @@
 Minimalist drawing library is inspired by **[turtle graphics](https://docs.python.org/3/library/turtle.html#module-turtle)** , written in **lua** for **löve2d**.
 
 # How to use
-Drawing anything is easy and readable with chain methods.
-![triangle](gif/tri.gif)
+*Create a **turtle** instance. Give it your commands and call its **draw()** function in **love.draw()**, That's it!*
+
+### To draw a triangle:
+
 ```lua
 local triangle = Turtle()
 
 function love.load()
+ -- turtle.lua supports chain methods as you can see below
     triangle:forward(60):left(120):forward(60):left(120):forward(60)
 end
 
@@ -17,6 +20,9 @@ function love.draw()
    triangle:draw()
 end
 ```
+### Result:
+<br> <img src="gif/tri.gif" width="240" /> 
+
 
 # Examples
 We added some examples to introduce you turtle library.
