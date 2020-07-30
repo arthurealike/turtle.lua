@@ -1,6 +1,6 @@
 # turtle.lua for LÖVE
 
-Minimalist **[turtle graphics](https://docs.python.org/3/library/turtle.html#module-turtle)** implementation in lua 
+Minimalist **[turtle graphics](https://docs.python.org/3/library/turtle.html#module-turtle)** module written in **lua** for **löve2d**.
 
 <br> ![LÖVE](gif/love.gif)
 
