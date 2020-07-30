@@ -227,12 +227,14 @@ function turtle:isdown()
 end
 
 function turtle:pd() return self:pendown() end
+function turtle:down() return self:pendown() end
 function turtle:pendown()
     self._drawing = true
     return self
 end
 
 function turtle:pu() return self:penup() end
+function turtle:up() return self:penup() end
 function turtle:penup()
     self._drawing = false
     return self
@@ -360,7 +362,7 @@ function turtle:draw()
 
     love.graphics.setLineWidth(self._pensize)
     love.graphics.setColor({1,1,1})
-    
+
     if self._visible and self._sprite then
         love.graphics.setColor(self._turtlecolor)
         love.graphics.draw(self._sprite, self._currentPos.x, self._currentPos.y, self._drawAngle, 1, 1, 8, 8)
