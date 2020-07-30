@@ -330,7 +330,9 @@ function turtle:_drawPath()
     local lastPos = self._pos
     for i = 1, self._nodeIndex, 1 do
         local node = self._nodes[i]
-        love.graphics.setColor(node._color)
+        if node._color then
+            love.graphics.setColor(node._color)
+        end
         if i == self._nodeIndex then
             love.graphics.line(lastPos.x, lastPos.y, self._lastNodeDrawPos.x, self._lastNodeDrawPos.y)
             break
