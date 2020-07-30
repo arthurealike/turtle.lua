@@ -12,9 +12,14 @@ As docs.python introduces:
 > By combining together these and similar commands, intricate shapes and pictures can easily be drawn.
 
 # Examples
-
 We added some examples to introduce you turtle library.
 See what we've done in [Examples](https://github.com/arthurealike/turtle.lua/edit/master/examples/examples.md)
+
+<p>
+   <img src="gif/examples/spidey.gif" width="240" />
+   <img src="gif/examples/colorful.gif" width="240" />
+   <img src="gif/examples/snake.gif" width="240" />
+</p>
 
 
 # Turtle Methods
@@ -110,7 +115,6 @@ function love.draw()
     circle:draw()
     rectangle:draw()
 end
-
 
 ```
 
