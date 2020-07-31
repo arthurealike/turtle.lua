@@ -463,7 +463,7 @@ function turtle:_drawTriangle()
     local angle = self._angle
 
     if next(self._nodes) ~= nil then 
-        angle = self._nodes[#self._nodes]._angle
+        angle = self._nodes[self._nodeIndex]._angle
     end
 
     local a, b, c = pos:rotateAround(-5, -5, angle), pos:rotateAround(-5, 5, angle), pos:rotateAround(5, 0, angle)
