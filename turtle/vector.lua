@@ -37,6 +37,10 @@ function lerp(a, b, t)
     return a + (b - a) * t
 end
 
+function Vector:angle(v)
+    return math.atan((v.y - self.y) / (v.x - self.x))
+end
+
 function Vector:rotateAround(x, y, angle)
     local newPos = self + new(x, y)
     local sin, cos = math.sin(angle), math.cos(angle)

@@ -172,13 +172,11 @@ end
 
 function turtle:setx(x)
     self._pos.x = x
-    print(x)
     return self
 end
 
 function turtle:sety(y)
     self._pos.y = y
-    print(y)
     return self
 end
 
@@ -192,13 +190,19 @@ function turtle:position(...)
     return self,self._currentPos.x, self._currentPos.y
 end
 
-function turtle:go(x, y) return self:go_to() end
+function turtle:go(x, y) return self:go_to(x, y) end
 
-function turtle:setposition(x, y) return self:go_to() end
+function turtle:setposition(x, y) return self:go_to(x, y) end
 
-function turtle:setpos(x, y) return self:go_to() end
+function turtle:setpos(x, y) return self:go_to(x, y) end
 
 function turtle:go_to(x, y)
+    local pos = self._pos
+    if next(self._nodes) ~= nil then pos = self._nodes[#self._nodes]._pos end
+    local angle = Vector2(x, y):angle(pos)
+    local node = self:_createNode(x, y)
+    node._angle = angle
+    self._nodes[#self._nodes + 1] = node
     return self
 end
 
