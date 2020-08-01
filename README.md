@@ -31,11 +31,19 @@ end
 We added some examples to introduce you turtle library.
 See what we've done in [Examples](https://github.com/arthurealike/turtle.lua/blob/master/examples/examples.md)
 
-<p>
-   <img src="gif/examples/spidey.gif" width="240" />
+<p> 
    <img src="gif/examples/colorful.gif" width="240" />
-   <img src="gif/examples/snake.gif" width="240" />
+   <img src="gif/examples/logo.gif" width="240" />
 </p>
+<p> 
+   <img src="gif/examples/spidey.gif" width="240" />
+   <img src="gif/examples/spores.gif" width="240" />
+</p>
+<p> 
+   <img src="gif/examples/beauty.gif" width="240" />
+   <img src="gif/examples/machine.gif" width="240" />
+</p>
+   <img src="gif/examples/snake.gif" width="240" />
 
 ### What is turtle?
 As docs.python introduces:
