@@ -22,6 +22,7 @@ local function Node(x, y)
         _angle = 0 ,
         _color = nil ,
         _speed = 0 ,
+        _fillGroup = -1 ,
     }
 end
 
@@ -39,6 +40,9 @@ local function new(x, y, speed, color, name, ondrawfinish)
         _nodes = {} ,
         _color = {1, 1, 1} ,
         _drawing = true ,
+        _fill = false ,
+        _fillGroupIndex = 1 ,
+        _fillColors = {} ,
         _turtlevisible = true ,
         _turtlecolor = {1, 1, 1} ,
         _ratio = 0 ,
@@ -53,7 +57,7 @@ local function new(x, y, speed, color, name, ondrawfinish)
         _finalized = false ,
         _ondrawfinish = ondrawfinish ,
         _visible = true ,
-        _debug = false
+        _debug = false ,
 
     }, turtle)
 end
@@ -64,6 +68,9 @@ function turtle:_createNode(x, y)
     node._color = self._color
     node._angle = self._angle
     node._lineVisible = self._drawing
+    if self._fill then
+        node._fillGroup = self._fillGroupIndex
+    end
     return node
 end
 
@@ -340,20 +347,66 @@ function turtle:color(...)                          -- Set color
     return self
 end
 
+function turtle:fillcolor(...)                          -- Set color
+    local c = self._color
+    local nargs = select("#", ...)
+    if nargs < 1 then
+        return self._turtlecolor()
+    elseif nargs == 3 then
+        c = {...}
+    elseif nargs == 1 then 
+        c = ... 
+    end
+    self._fillColors[self._fillGroupIndex] = c
+    return self
+end
+
+
+function turtle:begin_fill()
+    self._fill = true
+    return self
+end
+
+function turtle:end_fill()
+    self._fill = false
+    self._fillGroupIndex = self._fillGroupIndex + 1
+    return self
+end
+
 function turtle:_drawPath()
     local lastPos = self._pos
+    local fillVertices, fillGroup = {}, 0
     for i = 1, self._nodeIndex, 1 do
         local node = self._nodes[i]
         if node._lineVisible then
+            local drawPos = node._pos
+            if i == self._nodeIndex then
+                drawPos = self._lastNodeDrawPos
+            end
+            if fillGroup ~= node._fillGroup then
+                fillVertices = {}
+                fillGroup = node._fillGroup
+            end
+            if node._fillGroup > 0 then
+                if #fillVertices == 0 then 
+                    table.insert(fillVertices, lastPos.x)
+                    table.insert(fillVertices, lastPos.y)
+                end
+                table.insert(fillVertices, drawPos.x)
+                table.insert(fillVertices, drawPos.y)
+            end
+            if #fillVertices >= 6 then
+                if self._fillColors[fillGroup] ~= nil then
+                    love.graphics.setColor(self._fillColors[fillGroup])
+                elseif next(self._fillColors) ~= nil then
+                    love.graphics.setColor(self._fillColors[#self._fillColors])
+                end
+                love.graphics.polygon("fill", fillVertices)
+            end
             if node._color ~= nil then
                 love.graphics.setColor(node._color)
             end
-            if i == self._nodeIndex then
-                love.graphics.line(lastPos.x, lastPos.y, self._lastNodeDrawPos.x, self._lastNodeDrawPos.y)
-                break
-            else
-                love.graphics.line(lastPos.x, lastPos.y, node._pos.x, node._pos.y)
-            end
+            love.graphics.line(lastPos.x, lastPos.y, drawPos.x, drawPos.y)
         end
         lastPos = node._pos
     end
