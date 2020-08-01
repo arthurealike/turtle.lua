@@ -33,10 +33,10 @@ See what we've done in [Examples](https://github.com/arthurealike/turtle.lua/blo
 
 <p> 
    <img src="gif/examples/colorful.gif" width="240" />
-   <img src="gif/examples/logo.gif" width="240" />
+   <img src="gif/examples/spidey.gif" width="240" />
 </p>
 <p> 
-   <img src="gif/examples/spidey.gif" width="240" />
+   <img src="gif/examples/logo.gif" width="240" />
    <img src="gif/examples/spores.gif" width="240" />
 </p>
 <p> 
