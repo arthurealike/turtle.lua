@@ -66,6 +66,7 @@ As docs.python introduces:
    left() | lt()
    tl()
    rt()
+   circle()
    setheading() | seth()
    home()
    go_to() | go() | setpos() | setposition()
@@ -78,6 +79,8 @@ As docs.python introduces:
 ```lua
    position()
    heading()
+   xcor()
+   ycor()
    distance()
    name()
    print()
@@ -93,13 +96,22 @@ As docs.python introduces:
   ```
   * Color control
   ```lua
-   color()
+   color(...)
+   fillcolor(...)
+   turtlecolor()
   ```
+   * Filling
+  ```lua 
+   begin_fill()
+   end_fill()
+  ```
+  
   * Drawing control
   ```lua 
    reset()
    clear()
   ```
+ 
 
 ## 3. Turtle state
   * Visibility
