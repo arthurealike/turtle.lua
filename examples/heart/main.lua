@@ -4,8 +4,8 @@ local Turtle = require "turtle"
 local lheart, rheart = Turtle(), Turtle()
 
 function initHeart()
-    lheart:sety(400):speed(2):pensize(5):pd():play()
-    rheart:sety(400):speed(2):pensize(5):pd():play()
+    lheart:up():home():go_to(lheart:xcor(), lheart:ycor() + 100):down():speed(2):pensize(8):pd():play()
+    rheart:up():home():go_to(rheart:xcor(), rheart:ycor() + 100):down():speed(2):pensize(8):pd():play()
 
     lheart:color(1,0,0):left(140):fd(120)
     rheart:color(1,0,0):left(40):fd(120)

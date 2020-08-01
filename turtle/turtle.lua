@@ -67,6 +67,7 @@ function turtle:_createNode(x, y)
     node._speed = self._speed
     node._color = self._color
     node._angle = self._angle
+    node._size = self._pensize
     node._lineVisible = self._drawing
     if self._fill then
         node._fillGroup = self._fillGroupIndex
@@ -170,20 +171,30 @@ function turtle:left(deg)
 end
 
 function turtle:xcor()
-    return self._currentPos.x 
+    local x = self._currentPos.x
+    if #self._nodes > 0 then
+        print("not nil")
+        x = self._nodes[#self._nodes]._pos.x    
+    end
+    return x
 end
 
 function turtle:ycor()
-    return self._currentPos.y 
+    local y = self._currentPos.y
+    if #self._nodes > 0 then
+        print("not nil")
+        y = self._nodes[#self._nodes]._pos.y    
+    end
+    return y
 end
 
 function turtle:setx(x)
-    self._pos.x = x
+    self:go_to(x, self:ycor())
     return self
 end
 
 function turtle:sety(y)
-    self._pos.y = y
+    self:go_to(self:xcor(), y)
     return self
 end
 
@@ -209,6 +220,7 @@ function turtle:go_to(x, y)
     local angle = Vector2(x, y):angle(pos)
     local node = self:_createNode(x, y)
     node._angle = angle
+    node._visible = self._drawing
     self._nodes[#self._nodes + 1] = node
     return self
 end
@@ -277,6 +289,7 @@ function turtle:showturtle()
 end
 
 function turtle:ht() return self:hideturtle() end
+
 function turtle:hideturtle() 
     self._visible = false
     return self
@@ -406,6 +419,7 @@ function turtle:_drawPath()
             if node._color ~= nil then
                 love.graphics.setColor(node._color)
             end
+            love.graphics.setLineWidth(node._size)
             love.graphics.line(lastPos.x, lastPos.y, drawPos.x, drawPos.y)
         end
         lastPos = node._pos
@@ -418,19 +432,33 @@ function turtle:draw()
     self:update(dt)
     self:_drawPath()
 
-    love.graphics.setLineWidth(self._pensize)
     love.graphics.setColor({1,1,1})
 
-    if self._visible and self._sprite then
+    love.graphics.setColor(self._turtlecolor)
+
+    if self._visible == true and self._sprite then
         love.graphics.setColor(self._turtlecolor)
         love.graphics.draw(self._sprite, self._currentPos.x, self._currentPos.y, self._drawAngle, 1, 1, 8, 8)
     end
 
     if self._debug then
         self:_drawDebug()
-    elseif self._sprite == nil then
+    elseif self._sprite == nil and self._visible == true then
         self:_drawTriangle()
     end
+
+    love.graphics.setColor(self._color or {1, 1, 1})
+end
+
+--TODO
+
+function turtle:shape() 
+end
+
+function turtle:dot()
+end
+
+function turtle:stamp()
 end
 
 function turtle:update(dt)
@@ -500,7 +528,7 @@ function turtle:_drawDebug()
         love.graphics.setColor({0.4, 0.4, 0.4})
         love.graphics.draw(self._debugTexts.name, self._lastNodeDrawPos.x + 8, self._lastNodeDrawPos.y - 8)
 
-        if not self._drawing and not self._isvisible then love.graphics.setColor(1, 0, 0) else love.graphics.setColor(1, 1, 0) end
+        if not self._drawing and self._visible == true then love.graphics.setColor(1, 0, 0) else love.graphics.setColor(1, 1, 0) end
         self:_drawTriangle()
 
         love.graphics.setColor(r, g, b, a)
@@ -511,12 +539,26 @@ function turtle:_drawDebug()
     love.graphics.draw(self._debugTexts.position, 0, love.graphics.getHeight() - 15)
 end
 
+function turtle:circle(radius, extend) 
+    local extend = extend or 360
+    radius = math.abs(radius)
+    local m = ((radius * 6) / math.deg(math.pi)) / 2
+    print(m)
+    for i=1, extend do 
+        self:fd(m)
+        if extend > 0 then self:rt(1)
+        else self:lt(1) 
+        end
+    end
+    return self
+end
+
 function turtle:_drawTriangle()
     local pos = self._currentPos
     local angle = self._angle
 
     if next(self._nodes) ~= nil then 
-        angle = self._nodes[self._nodeIndex]._angle
+       -- angle = self._nodes[self._nodeIndex] or 0
     end
 
     local a, b, c = pos:rotateAround(-5, -5, angle), pos:rotateAround(-5, 5, angle), pos:rotateAround(5, 0, angle)
