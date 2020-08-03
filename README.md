@@ -1,4 +1,6 @@
 # Turtle
+[![MIT License](https://img.shields.io/github/license/arthurealike/turtle.lua)](https://github.com/arthurealike/turtle.lua/blob/master/README.md)<br>
+
 ![LÖVE](gif/love.gif)
 
 #### Minimalist drawing library is inspired by **[turtle graphics](https://docs.python.org/3/library/turtle.html#module-turtle)** , written in **lua** for **löve2d**.
