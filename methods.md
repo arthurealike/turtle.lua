@@ -1,20 +1,13 @@
 # Methods Overview
+```lua
 
-turtle:setsprite(name)
+turtle:home()
 
-turtle:ondrawfinish(ondrawfinish) 
+turtle:draw() -- call this function in love.draw()
 
-turtle:nodecount() 
+turtle:isdown() 
 
 turtle:forward(d)
-
-turtle:undo(c)
-
-turtle:clear()
-
-turtle:reset()
-
-turtle:name(...)
 
 turtle:rt(deg)
 
@@ -24,13 +17,21 @@ turtle:lt(deg)
 
 turtle:left(deg)
 
-turtle:xcor()
+turtle:pd()
 
-turtle:ycor()
+turtle:down()
 
-turtle:setx(x)
+turtle:pendown()
 
-turtle:sety(y)
+turtle:pu() 
+
+turtle:up() 
+
+turtle:penup()
+
+turtle:pentoggle() 
+
+turtle:pensize(...) 
 
 turtle:position(...)
 
@@ -42,6 +43,14 @@ turtle:setpos(x, y) return self:go_to(x, y)
 
 turtle:go_to(x, y)
 
+turtle:xcor()
+
+turtle:ycor()
+
+turtle:setx(x)
+
+turtle:sety(y)
+
 turtle:seth(deg) return self:setheading(deg)  
 
 turtle:heading()
@@ -50,25 +59,19 @@ turtle:setheading(deg)
 
 turtle:distance(x, y) 
 
-turtle:home()
+turtle:setsprite(name)
 
-turtle:isdown()
+turtle:ondrawfinish(ondrawfinish) 
 
-turtle:pd() return self:pendown()  
+turtle:nodecount() 
 
-turtle:down() return self:pendown()  
+turtle:undo(c)
 
-turtle:pendown()
+turtle:clear()
 
-turtle:pu() return self:penup()  
+turtle:reset()
 
-turtle:up() return self:penup()  
-
-turtle:penup()
-
-turtle:pentoggle() 
-
-turtle:pensize(...) 
+turtle:name(...)
 
 turtle:isvisible()
 
@@ -86,9 +89,9 @@ turtle:pause()
 
 turtle:toggle() 
 
-turtle:tl() return self:heading(-90)         -- Turn left
+turtle:tl()
 
-turtle:tr() return self:heading(90)          -- Turn right
+turtle:tr() 
 
 turtle:back(d) return self:forward(-d)     
 
@@ -110,7 +113,7 @@ turtle:color(...)  -- Set color or return color
 
 turtle:begin_fill()
 
-turtle: _end_fill()
+turtle:end_fill()
 
 turtle:debugon()
 
@@ -122,9 +125,6 @@ turtle:circle(radius, ext )
 
 turtle:print()
 
-  turtle:draw()
-
-
 --TODO
 
 turtle:shape() 
@@ -134,7 +134,6 @@ turtle:dot()
  
 
 turtle:stamp()
- 
 
 --
-
+```
