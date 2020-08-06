@@ -1,5 +1,4 @@
-# Turtle
-[![MIT License](https://img.shields.io/github/license/arthurealike/turtle.lua)](https://github.com/arthurealike/turtle.lua/blob/master/README.md)<br>
+# turtle.lua [![MIT License](https://img.shields.io/github/license/arthurealike/turtle.lua)](https://github.com/arthurealike/turtle.lua/blob/master/README.md)<br>
 
 ![LÖVE](gif/love.gif)
 
