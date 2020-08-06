@@ -10,6 +10,8 @@
 # How to use
 *Create a **turtle** instance. Give it your commands and call its **draw()** function in **love.draw()**, That's it!*
 
+**[View methods in detail](https://github.com/arthurealike/turtle.lua/blob/master/methods.md)**
+
 ### To draw a triangle:
 
 ```lua
@@ -26,7 +28,6 @@ end
 ```
 ### Result:
 <br> <img src="gif/tri.gif" width="240" /> 
-
 
 # Examples
 We added some examples to introduce you turtle library.
@@ -53,7 +54,6 @@ As docs.python introduces:
 > Imagine a robotic turtle starting at (0, 0) in the x-y plane. After an import turtle, give it the command turtle.forward(15), and it moves (on-screen!) 15 pixels in the direction it is facing, drawing a line as it moves. Give it the command turtle.right(25), and it rotates in-place 25 degrees clockwise.
 
 > By combining together these and similar commands, intricate shapes and pictures can easily be drawn.
-
 
 # Turtle Methods
 
