@@ -1,4 +1,10 @@
+-----------------------------------------------------------
+--            (c) 2020 Mustafa Erkam Badin               --
+-----------------------------------------------------------
+-- Source: https://github.com/arthurealike/turtle.lua    --
+-----------------------------------------------------------
 local Vector2 = require "vector"
+
 originx, originy = love.graphics.getWidth() / 2, love.graphics.getHeight() / 2
 
 _TURTLEIMAGE = "turtle.png"
@@ -80,7 +86,10 @@ function turtle:setsprite(name)
     return self
 end
 
-function turtle:ondrawfinish(ondrawfinish) self._ondrawfinish = ondrawfinish end
+function turtle:ondrawfinish(ondrawfinish) 
+    self._ondrawfinish = ondrawfinish 
+end
+
 function turtle:nodecount() return #self._nodes end
 
 function turtle:forward(d)

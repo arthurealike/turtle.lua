@@ -1,3 +1,8 @@
+-----------------------------------------------------------
+--            (c) 2020 Mustafa Erkam Badin               --
+-----------------------------------------------------------
+-- Source: https://github.com/arthurealike/turtle.lua    --
+-----------------------------------------------------------
 local Vector = {}
 Vector.__index = Vector
 
@@ -38,7 +43,7 @@ function lerp(a, b, t)
 end
 
 function Vector:angle(v)
-    return math.atan((v.y - self.y) / (v.x - self.x))
+    return math.atan2((v.y - self.y) / (v.x - self.x))
 end
 
 function Vector:rotateAround(x, y, angle)

@@ -148,3 +148,27 @@ end
 <div style='float: center'>
   <img style='width: 600px' src="https://github.com/arthurealike/turtle.lua/blob/master/gif/examples/spidey.gif"></img>
 </div>
+
+## Machine 
+```lua
+function machine(t)
+    t:pu():turtlecolor(0.3, 0, 0.5)
+    for i=1, 181 do
+        t:forward(120):color(.8, .8, .8)
+        t:right(30)
+        t:forward(50):color(.9, .9, .9)
+        t:left(60)
+        t:forward(100):color(sc)
+        t:right(30)
+
+        t:penup()
+        t:home()
+        t:pendown()
+
+        t:right(2)
+    end
+end
+```
+<div style='float: center'>
+  <img style='width: 600px' src="https://github.com/arthurealike/turtle.lua/blob/master/gif/examples/machine.gif"></img>
+</div>

@@ -1,3 +1,8 @@
+-----------------------------------------------------------
+--            (c) 2020 Mustafa Erkam Badin               --
+-----------------------------------------------------------
+-- Source: https://github.com/arthurealike/turtle.lua    --
+-----------------------------------------------------------
 package.path = package.path .. ";../../turtle/?.lua"
 local Spore = require "turtle"
 
