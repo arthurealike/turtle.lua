@@ -43,7 +43,7 @@ function lerp(a, b, t)
 end
 
 function Vector:angle(v)
-    return math.atan2((v.y - self.y) / (v.x - self.x))
+    return math.atan2((v.y - self.y) , (v.x - self.x))
 end
 
 function Vector:rotateAround(x, y, angle)
