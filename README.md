@@ -73,7 +73,7 @@ As docs.python introduces:
    go_to() | go() | setpos() | setposition()
    setx()
    sety()
-   undo()
+   undo(c)
    speed()
 ```
   * Turtle's state
@@ -84,6 +84,7 @@ As docs.python introduces:
    ycor()
    distance()
    name()
+   nodecount()
    print()
 ```
 
@@ -136,7 +137,12 @@ As docs.python introduces:
  play()
  pause()
  toggle()
-  
+```
+## 6. Debug
+```lua
+ debugon()
+ debugoff()
+ drawDebug()
 ```
 
 # Quick example
